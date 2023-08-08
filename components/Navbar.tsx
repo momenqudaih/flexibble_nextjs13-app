@@ -2,7 +2,7 @@ import { NavLinks } from '@/constants';
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { AuthProviders, ProfileMenu } from './';
+import { AuthProviders, Button, ProfileMenu } from './';
 import { getCurrentUser } from '@/lib/session';
 import { signOut } from 'next-auth/react';
 
@@ -34,7 +34,9 @@ const Navbar = async () => {
                 {session?.user ? (
                     <>
                         <ProfileMenu session={session} />
-                        <Link href="/create-project">Share work</Link>
+                        <Link href="/create-project">
+                            <Button title="Share work" />
+                        </Link>
                     </>
                 ) : (
                     <AuthProviders />
