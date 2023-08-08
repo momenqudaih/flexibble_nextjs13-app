@@ -52,7 +52,7 @@ const ProjectCard = ({ id, image, title, name, avatarUrl, userId }: Props) => {
                             className="rounded-full"
                             alt="Profile Image"
                         />
-                        <p>{name}</p>
+                        <p className="ml-2">{name}</p>
                     </div>
                 </Link>
 

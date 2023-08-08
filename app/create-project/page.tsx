@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation';
 import { Modal, ProjectForm } from '@/components';
 import { getCurrentUser } from '@/lib/session';
 
-const page = async () => {
+const CreateProject = async () => {
     const session = await getCurrentUser();
     if (!session?.user) redirect('/');
     return (
@@ -14,4 +14,4 @@ const page = async () => {
     );
 };
 
-export default page;
+export default CreateProject;

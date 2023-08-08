@@ -11,6 +11,8 @@ import FormField from './FormField';
 import CustomMenu from './CustomMenu';
 import Button from './Button';
 import ProjectCard from './ProjectCard';
+import RelatedProjects from './RelatedProjects';
+import ProjectActions from './ProjectActions';
 
 export {
     Categories,
@@ -26,4 +28,6 @@ export {
     CustomMenu,
     Button,
     ProjectCard,
+    RelatedProjects,
+    ProjectActions,
 };

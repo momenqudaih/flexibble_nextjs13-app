@@ -10,7 +10,7 @@ const Modal = ({ children }: { children: ReactNode }) => {
     const router = useRouter();
 
     const onDismiss = useCallback(() => {
-        router.back();
+        router.push('/');
     }, [router]);
 
     const handleClick = useCallback(
