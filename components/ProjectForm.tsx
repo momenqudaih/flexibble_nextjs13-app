@@ -17,6 +17,7 @@ type Props = {
 
 const ProjectForm = ({ type, session, project }: Props) => {
     const [submitting, setSubmitting] = useState<boolean>(false);
+    const [errorMessage, setErrorMessage] = useState<string>('');
     const router = useRouter();
     const reader = new FileReader();
 
@@ -42,7 +43,8 @@ const ProjectForm = ({ type, session, project }: Props) => {
                 router.push('/');
             }
         } catch (error) {
-            console.log(error);
+            console.error(error);
+            setErrorMessage('An error occurred while submitting the form. Please try again.');
         } finally {
             setSubmitting(false);
         }
@@ -83,6 +85,7 @@ const ProjectForm = ({ type, session, project }: Props) => {
     });
 
     return (
+        {errorMessage && <p>{errorMessage}</p>}
         <form onSubmit={handleFormSubmit} className="flexStart form">
             <div className="flexStart form_image-container">
                 <label htmlFor="poster" className="flexCenter form_image-label">
