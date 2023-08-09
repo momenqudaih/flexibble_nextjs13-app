@@ -29,6 +29,7 @@ const makeGraphQLRequest = async (query: string, variables = {}) => {
         // do client side request
         return await client.request(query, variables);
     } catch (error) {
+        console.error(error);
         throw error;
     }
 };
@@ -55,8 +56,12 @@ export const createUser = (name: string, email: string, avatarUrl: string) => {
 export const fetchToken = async () => {
     try {
         const response = await fetch(`${serverUrl}/api/auth/token`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
         return response.json();
     } catch (error) {
+        console.error(error);
         throw error;
     }
 };
@@ -67,9 +72,12 @@ export const uploadImage = async (imagePath: string) => {
             method: 'POST',
             body: JSON.stringify({ path: imagePath }),
         });
-
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
         return response.json();
     } catch (error) {
+        console.error(error);
         throw error;
     }
 };
