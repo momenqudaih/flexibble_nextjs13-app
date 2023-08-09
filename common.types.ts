@@ -29,10 +29,10 @@ export interface UserProfile {
     id: string;
     name: string;
     email: string;
-    description: string | null;
+    description?: string;
     avatarUrl: string;
-    githubUrl: string | null;
-    linkedinUrl: string | null;
+    githubUrl?: string;
+    linkedinUrl?: string;
     projects: {
         edges: { node: ProjectInterface }[];
         pageInfo: {
