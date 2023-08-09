@@ -1,13 +1,15 @@
 'use client';
 
-import { useState } from 'react';
-import { FormState, ProjectInterface, SessionInterface } from '@/common.types';
 import Image from 'next/image';
-import FormField from './FormField';
+import React, { ChangeEvent, FormEvent, useState } from 'react';
 import { useRouter } from 'next/navigation';
+
+import FormField from './FormField';
+import Button from './Button';
+import CustomMenu from './CustomMenu';
 import { categoryFilters } from '@/constants';
-import { Button, CustomMenu } from '@/components';
-import { createNewProject, fetchToken, updateProject } from '@/lib/actions';
+import { updateProject, createNewProject, fetchToken } from '@/lib/actions';
+import { FormState, ProjectInterface, SessionInterface } from '@/common.types';
 
 type Props = {
     type: string;
@@ -16,39 +18,23 @@ type Props = {
 };
 
 const ProjectForm = ({ type, session, project }: Props) => {
-    const [submitting, setSubmitting] = useState<boolean>(false);
     const router = useRouter();
-    const reader = new FileReader();
 
-    const handleFormSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
+    const [submitting, setSubmitting] = useState<boolean>(false);
+    const [form, setForm] = useState<FormState>({
+        title: project?.title || '',
+        description: project?.description || '',
+        image: project?.image || '',
+        liveSiteUrl: project?.liveSiteUrl || '',
+        githubUrl: project?.githubUrl || '',
+        category: project?.category || '',
+    });
 
-        setSubmitting(true);
-
-        const { token } = await fetchToken();
-
-        try {
-            if (type === 'create') {
-                // here we will create a new project
-                await createNewProject(form, session?.user?.id, token);
-
-                router.push('/');
-            }
-
-            if (type === 'edit') {
-                // here we will update the existing project
-                await updateProject(form, project?.id as string, token);
-
-                router.push('/');
-            }
-        } catch (error) {
-            console.log(error);
-        } finally {
-            setSubmitting(false);
-        }
+    const handleStateChange = (fieldName: keyof FormState, value: string) => {
+        setForm((prevForm) => ({ ...prevForm, [fieldName]: value }));
     };
 
-    const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChangeImage = (e: ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
 
         const file = e.target.files?.[0];
@@ -56,9 +42,12 @@ const ProjectForm = ({ type, session, project }: Props) => {
         if (!file) return;
 
         if (!file.type.includes('image')) {
-            alert('Please upload an image file');
+            alert('Please upload an image!');
+
             return;
         }
+
+        const reader = new FileReader();
 
         reader.readAsDataURL(file);
 
@@ -69,18 +58,35 @@ const ProjectForm = ({ type, session, project }: Props) => {
         };
     };
 
-    const handleStateChange = (fieldName: string, value: string) => {
-        setForm((prev) => ({ ...prev, [fieldName]: value }));
-    };
+    const handleFormSubmit = async (e: FormEvent) => {
+        e.preventDefault();
 
-    const [form, setForm] = useState<FormState>({
-        title: project?.title || '',
-        description: project?.description || '',
-        image: project?.image || '',
-        liveSiteUrl: project?.liveSiteUrl || '',
-        githubUrl: project?.githubUrl || '',
-        category: project?.category || '',
-    });
+        setSubmitting(true);
+
+        const { token } = await fetchToken();
+
+        try {
+            if (type === 'create') {
+                await createNewProject(form, session?.user?.id, token);
+
+                router.push('/');
+            }
+
+            if (type === 'edit') {
+                await updateProject(form, project?.id as string, token);
+
+                router.push('/');
+            }
+        } catch (error) {
+            alert(
+                `Failed to ${
+                    type === 'create' ? 'create' : 'edit'
+                } a project. Try again!`,
+            );
+        } finally {
+            setSubmitting(false);
+        }
+    };
 
     return (
         <form onSubmit={handleFormSubmit} className="flexStart form">
@@ -98,9 +104,9 @@ const ProjectForm = ({ type, session, project }: Props) => {
                 />
                 {form.image && (
                     <Image
-                        src={form.image}
-                        alt="Project poster"
+                        src={form?.image}
                         className="sm:p-10 object-contain z-20"
+                        alt="image"
                         fill
                     />
                 )}
@@ -109,7 +115,7 @@ const ProjectForm = ({ type, session, project }: Props) => {
             <FormField
                 title="Title"
                 state={form.title}
-                placeholder="InspiroShot"
+                placeholder="Flexibble"
                 setState={(value) => handleStateChange('title', value)}
             />
 
@@ -125,7 +131,7 @@ const ProjectForm = ({ type, session, project }: Props) => {
                 type="url"
                 title="Website URL"
                 state={form.liveSiteUrl}
-                placeholder="https://momenqudaih.pro"
+                placeholder="https://jsmastery.pro"
                 setState={(value) => handleStateChange('liveSiteUrl', value)}
             />
 
@@ -133,7 +139,7 @@ const ProjectForm = ({ type, session, project }: Props) => {
                 type="url"
                 title="GitHub URL"
                 state={form.githubUrl}
-                placeholder="https://github.com/momen-qudaih"
+                placeholder="https://github.com/adrianhajdin"
                 setState={(value) => handleStateChange('githubUrl', value)}
             />
 
@@ -148,12 +154,8 @@ const ProjectForm = ({ type, session, project }: Props) => {
                 <Button
                     title={
                         submitting
-                            ? `${
-                                  type === 'create' ? 'Creating' : 'Updating'
-                              } project...`
-                            : `${
-                                  type === 'create' ? 'Create' : 'Update'
-                              } project`
+                            ? `${type === 'create' ? 'Creating' : 'Updating..'}`
+                            : `${type === 'create' ? 'Create' : 'Update'}`
                     }
                     type="submit"
                     leftIcon={submitting ? '' : '/plus.svg'}
