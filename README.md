@@ -2,7 +2,7 @@
 
 InspiroShot is a remarkable web application that faithfully emulates the essence of Dribbble, powered by Next.js 13. With an unwavering commitment to outstanding performance and captivating user experiences, InspiroShot brings the magic of Dribbble to life.
 
-![InspiroShot Screenshot](public\bfsign.png)
+![InspiroShot Screenshot](/public/bfsign.png)
 
 ## Features ✨
 
@@ -48,28 +48,28 @@ InspiroShot is a remarkable web application that faithfully emulates the essence
 
 ## Screenshots 📷
 
-![Home Page (Before Sign In)](public\bfsign.png)
+![Home Page (Before Sign In)](/public/bfsign.png)
 _Home page before signing in._
 
-![Home Page (After Sign In)](public\signed.png)
+![Home Page (After Sign In)](/public/signed.png)
 _Home page after signing in. User can see their projects and navigate._
 
-![Home Page (Menu Settings)](public\menu.png)
+![Home Page (Menu Settings)](/public/menu.png)
 _Home page with the menu settings open. User can customize their preferences._
 
-![Home Page (Filtered Projects)](public\FilterdProjects.png)
+![Home Page (Filtered Projects)](/public/FilterdProjects.png)
 _Home page with filtered projects displayed based on user preferences._
 
-![Project Detail Page](public\projectShowcase.png)
+![Project Detail Page](/public/projectShowcase.png)
 _Project detail page with additional information and related projects._
 
-![Create Project Page](public\CreateProjectForm.png)
+![Create Project Page](/public/CreateProjectForm.png)
 _Create new project page where users can submit their own designs._
 
-![Edit Project Page](public\EditProjectForm.png)
+![Edit Project Page](/public/EditProjectForm.png)
 _Edit project page for modifying existing project details._
 
-![User Profile Page](public\profile.png)
+![User Profile Page](/public/profile.png)
 _User profile page displaying user information and their projects._
 
 ## Usage 🎈
